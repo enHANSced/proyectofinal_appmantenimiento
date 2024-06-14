@@ -18,7 +18,7 @@ class VehiclesPage extends StatefulWidget {
 
 class _VehiclesPageState extends State<VehiclesPage> {
   final String apiUrl =
-      'https://cjl22d1j-3000.use2.devtunnels.ms/api/vehiculos';
+      'https://finalprojectbackend-production-a933.up.railway.app/api/vehiculos';
 
   List vehiculos = [];
 
