@@ -104,10 +104,10 @@ class _AddReceiptPageState extends State<AddReceiptPage> {
           child: ListView(
             children: [
               _buildAmountField('Monto', _amountController),
-              _buildDropdownField('ID de Orden de Trabajo', _selectedWorkOrder, _workOrders.map<DropdownMenuItem<String>>((dynamic workOrder) {
+              _buildDropdownField('Orden de Trabajo', _selectedWorkOrder, _workOrders.map<DropdownMenuItem<String>>((dynamic workOrder) {
                 return DropdownMenuItem<String>(
                   value: workOrder['id'].toString(),
-                  child: Text('Orden de Trabajo ${workOrder['id']}'),
+                  child: Text('${workOrder['detalles']}'),
                 );
               }).toList(), (String? newValue) {
                 setState(() {
@@ -202,7 +202,7 @@ class _AddReceiptPageState extends State<AddReceiptPage> {
           icon: const Icon(Icons.arrow_drop_down),
           onChanged: (String? newValue) {
             setState(() {
-              _paymentStatus = newValue;
+              _paymentStatus = newValue ?? 'Pagado';
             });
           },
           items: ['Pendiente', 'Pagado'].map<DropdownMenuItem<String>>((String estado) {

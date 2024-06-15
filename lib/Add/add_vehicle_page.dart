@@ -88,11 +88,14 @@ class _AgregarVehiculoState extends State<AgregarVehiculo> {
 
         if (response.statusCode == 201) {
           ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('Se ha guardado el vehículo correctamente')),
+            const SnackBar(
+                content: Text('Se ha guardado el vehículo correctamente')),
           );
         } else {
           ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('Error al guardar el vehículo, es posible que el vehículo ya exista')),
+            const SnackBar(
+                content: Text(
+                    'Error al guardar el vehículo, es posible que el vehículo ya exista')),
           );
         }
       }
@@ -122,8 +125,8 @@ class _AgregarVehiculoState extends State<AgregarVehiculo> {
               _construirDropdownDeConductores(),
               const SizedBox(height: 30),
               ElevatedButton(
-                onPressed: (){_enviarFormulario();
-                  //Navigator.pop(context);
+                onPressed: () {
+                  _enviarFormulario();
                 },
                 child: const Text('Guardar'),
               ),
@@ -154,10 +157,9 @@ class _AgregarVehiculoState extends State<AgregarVehiculo> {
   Widget _construirDropdownDeConductores() {
     return InputDecorator(
       decoration: const InputDecoration(
-        labelText: 'Conductor Asignado',
-        hintText: 'Seleccione un conductor',
-        contentPadding: EdgeInsets.symmetric(horizontal: 10, vertical: 10)
-      ),
+          labelText: 'Conductor Asignado',
+          hintText: 'Seleccione un conductor',
+          contentPadding: EdgeInsets.symmetric(horizontal: 10, vertical: 10)),
       child: DropdownButtonHideUnderline(
         child: DropdownButton<String>(
           value: _conductorSeleccionado,
@@ -170,7 +172,8 @@ class _AgregarVehiculoState extends State<AgregarVehiculo> {
               print("Conductor seleccionado: $_conductorSeleccionado");
             });
           },
-          items: _conductores.map<DropdownMenuItem<String>>((dynamic conductor) {
+          items:
+              _conductores.map<DropdownMenuItem<String>>((dynamic conductor) {
             return DropdownMenuItem<String>(
               value: conductor['id'],
               child: Text(conductor['nombre']),
@@ -181,4 +184,3 @@ class _AgregarVehiculoState extends State<AgregarVehiculo> {
     );
   }
 }
-
