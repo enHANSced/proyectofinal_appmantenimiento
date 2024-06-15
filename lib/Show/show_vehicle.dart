@@ -36,7 +36,7 @@ class _ShowVehicleState extends State<ShowVehicle> {
   Future<dynamic> fetchVehicleData() async {
     // Construimos la URL de la API utilizando el ID del vehículo recibido como parámetro
     String apiUrl =
-        'https://cjl22d1j-3000.use2.devtunnels.ms/api/vehiculos/${widget.vehicleId}';
+        'https://finalprojectbackend-production-a933.up.railway.app/api/vehiculos/${widget.vehicleId}';
     final response = await http.get(Uri.parse(apiUrl));
     if (response.statusCode == 200) {
       // Si la respuesta es exitosa, decodificamos los datos en formato JSON
@@ -151,7 +151,7 @@ class _ShowVehicleState extends State<ShowVehicle> {
 
     // Si el usuario confirma la eliminación, realizamos una solicitud HTTP DELETE a la API para eliminar el vehículo
     String apiUrl =
-        'https://cjl22d1j-3000.use2.devtunnels.ms/api/vehiculos/${widget.vehicleId}';
+        'https://finalprojectbackend-production-a933.up.railway.app/api/vehiculos/${widget.vehicleId}';
     final response = await http.delete(Uri.parse(apiUrl));
     if (response.statusCode == 204) {
       Navigator.of(context).pop();

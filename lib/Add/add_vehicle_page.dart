@@ -18,10 +18,10 @@ class AgregarVehiculo extends StatefulWidget {
 class _AgregarVehiculoState extends State<AgregarVehiculo> {
   // Dirección de la API para agregar vehículos.
   final String apiVehiculos =
-      'https://cjl22d1j-3000.use2.devtunnels.ms/api/vehiculos';
+      'https://finalprojectbackend-production-a933.up.railway.app/api/vehiculos';
   // Dirección de la API para obtener conductores.
   final String apiConductores =
-      'https://cjl22d1j-3000.use2.devtunnels.ms/api/conductores';
+      'https://finalprojectbackend-production-a933.up.railway.app/api/conductores';
 
   // Controlador de formulario.
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
@@ -122,7 +122,9 @@ class _AgregarVehiculoState extends State<AgregarVehiculo> {
               _construirDropdownDeConductores(),
               const SizedBox(height: 30),
               ElevatedButton(
-                onPressed: _enviarFormulario,
+                onPressed: (){_enviarFormulario();
+                  Navigator.pop(context);
+                },
                 child: const Text('Guardar'),
               ),
             ],
