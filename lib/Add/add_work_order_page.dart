@@ -96,7 +96,7 @@ class _AddWorkOrderPageState extends State<AddWorkOrderPage> {
           );
         } else {
           ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('Error al guardar la orden de tarea, es posible que la orden de tarea ya exista')),
+            const SnackBar(content: Text('Error al guardar la orden de tarea.')),
           );
         }
       }
@@ -131,15 +131,20 @@ class _AddWorkOrderPageState extends State<AddWorkOrderPage> {
             children: [
               _buildTextField('Detalles', _detailsController),
               _buildTextField('Costo', _costController, isNumeric: true),
+              const SizedBox(height: 10),
               _construirDropdownEstadoPago(),
+              const SizedBox(height: 10),
               _buildDateField('Fecha de Emisión', _dateIssuedController, context),
-              const SizedBox(height: 20),
+              const SizedBox(height: 10),
               _construirDropdownDeproveedores(),
-              const SizedBox(height: 30),
+              const SizedBox(height: 10),
               _construirDropdownDeVehiculos(),
-              const SizedBox(height: 30),
+              const SizedBox(height: 10),
               ElevatedButton(
-                onPressed: _enviarFormulario,
+                onPressed: () {
+                  _enviarFormulario();
+                  Navigator.pop(context);
+                },
                 child: const Text('Guardar'),
               ),
             ],
@@ -170,7 +175,7 @@ class _AddWorkOrderPageState extends State<AddWorkOrderPage> {
         decoration: InputDecoration(
           labelText: label,
           hintText: 'Seleccione una fecha',
-          contentPadding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+          contentPadding: EdgeInsets.symmetric(vertical: 20),
         ),
         child: Row(
           children: [
@@ -178,7 +183,6 @@ class _AddWorkOrderPageState extends State<AddWorkOrderPage> {
             SizedBox(width: 10),
             Text(
               controller.text.isEmpty ? 'Seleccione una fecha' : controller.text,
-              style: TextStyle(color: Colors.black87),
             ),
           ],
         ),
@@ -191,7 +195,7 @@ class _AddWorkOrderPageState extends State<AddWorkOrderPage> {
       decoration: const InputDecoration(
         labelText: 'Proveedor Asignado',
         hintText: 'Seleccione un Proveedor',
-        contentPadding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+        contentPadding: EdgeInsets.symmetric(vertical: 10),
       ),
       child: DropdownButtonHideUnderline(
         child: DropdownButton<String>(
@@ -220,7 +224,7 @@ class _AddWorkOrderPageState extends State<AddWorkOrderPage> {
       decoration: const InputDecoration(
         labelText: 'Vehículo Asignado',
         hintText: 'Seleccione un vehículo',
-        contentPadding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+        contentPadding: EdgeInsets.symmetric(vertical: 10),
       ),
       child: DropdownButtonHideUnderline(
         child: DropdownButton<String>(
@@ -249,11 +253,11 @@ class _AddWorkOrderPageState extends State<AddWorkOrderPage> {
       decoration: const InputDecoration(
         labelText: 'Estado de Pago',
         hintText: 'Seleccione un estado de pago',
-        contentPadding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+        contentPadding: EdgeInsets.symmetric(vertical: 10),
       ),
       child: DropdownButtonHideUnderline(
         child: DropdownButton<String>(
-          value: _estadoPagoSeleccionado,
+          value: _estadoPagoSeleccionado ?? 'Pendiente',
           borderRadius: BorderRadius.circular(15),
           isExpanded: true,
           icon: const Icon(Icons.arrow_drop_down),

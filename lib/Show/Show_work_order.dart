@@ -29,7 +29,7 @@ class _ShowWorkOrderState extends State<ShowWorkOrder> {
     } else {
       print('Failed to load work order: ${response.statusCode}');
       print('Response body: ${response.body}');
-      throw Exception('Failed to load work order');
+      throw Exception('Esta orden de trabajo ya no existe');
     }
   }
 
@@ -67,15 +67,18 @@ class _ShowWorkOrderState extends State<ShowWorkOrder> {
           children: [
             ListTile(
               leading: const Icon(Icons.directions_car),
-              title: Text('ID del Vehículo: ${orderData['vehiculoId'] ?? 'N/A'}'),
+              title:
+                  Text('ID del Vehículo: ${orderData['vehiculoId'] ?? 'N/A'}'),
             ),
             ListTile(
               leading: const Icon(Icons.person),
-              title: Text('ID del Proveedor: ${orderData['proveedorId'] ?? 'N/A'}'),
+              title: Text(
+                  'ID del Proveedor: ${orderData['proveedorId'] ?? 'N/A'}'),
             ),
             ListTile(
               leading: const Icon(Icons.date_range),
-              title: Text('Fecha de Emisión: ${orderData['fechaEmision'] ?? 'N/A'}'),
+              title: Text(
+                  'Fecha de Emisión: ${orderData['fechaEmision'] ?? 'N/A'}'),
             ),
             ListTile(
               leading: const Icon(Icons.description),
@@ -87,7 +90,8 @@ class _ShowWorkOrderState extends State<ShowWorkOrder> {
             ),
             ListTile(
               leading: const Icon(Icons.payment),
-              title: Text('Estado de Pago: ${orderData['estadoPago'] ?? 'N/A'}'),
+              title:
+                  Text('Estado de Pago: ${orderData['estadoPago'] ?? 'N/A'}'),
             ),
           ],
         ),
@@ -111,7 +115,8 @@ class _ShowWorkOrderState extends State<ShowWorkOrder> {
       builder: (BuildContext dialogContext) {
         return AlertDialog(
           title: const Text('Confirmar'),
-          content: const Text('¿Estás seguro de que deseas eliminar esta orden de trabajo?'),
+          content: const Text(
+              '¿Estás seguro de que deseas eliminar esta orden de trabajo?'),
           actions: <Widget>[
             TextButton(
               onPressed: () => Navigator.of(dialogContext).pop(false),
@@ -135,8 +140,9 @@ class _ShowWorkOrderState extends State<ShowWorkOrder> {
       Navigator.of(context).pop();
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
-            content: Text(
-                'Orden de trabajo eliminada correctamente, recarga la página para ver los cambios')),
+          content: Text(
+              'Orden de trabajo eliminada correctamente, recarga la página para ver los cambios'),
+        ),
       );
     } else {
       ScaffoldMessenger.of(context).showSnackBar(

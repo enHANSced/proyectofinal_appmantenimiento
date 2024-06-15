@@ -52,7 +52,7 @@ class _VehiclesPageState extends State<VehiclesPage> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Ingrese los vehículos que quiera mantener en la base de datos rellenando un formulario predeterminado.',
+                  'Ingrese los vehículos que quiera mantener en la base de datos.',
                   style: TextStyle(fontSize: 16),
                 ),
                 SizedBox(height: 20),
@@ -65,7 +65,7 @@ class _VehiclesPageState extends State<VehiclesPage> {
                   itemBuilder: (context, index) => _buildVehicleCard(
                       context,
                       '${vehiculos[index]["marca"]} ${vehiculos[index]["modelo"]}',
-                      '${vehiculos[index]["anio"]}',
+                      '${vehiculos[index]["id"]}',
                       index), // Pasando index aquí
                 ),
                 SizedBox(height: 20),

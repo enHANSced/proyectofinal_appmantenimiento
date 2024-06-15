@@ -61,7 +61,7 @@ class _ProvidersPageState extends State<ProvidersPage> {
                     context,
                     '${proveedores[index]["nombre"]}',
                     '${proveedores[index]["contacto"]}',
-                    proveedores[index]["id"].toString(), // Asegúrate de convertir el ID a String
+                    proveedores[index]["id"].toString(), 
                   ), // Pasando index aquí
                 ),
                 SizedBox(height: 20),
@@ -120,10 +120,7 @@ class _ProvidersPageState extends State<ProvidersPage> {
               alignment: Alignment.bottomRight,
               child: ElevatedButton(
                 onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => ShowProvider(providerId: providerId)),
-                  );
+                  showDialog(context: context, builder: (context) => ShowProvider(providerId: providerId));
                 },
                 child: Text('Más Información'),
                 style: ElevatedButton.styleFrom(

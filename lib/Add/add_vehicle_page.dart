@@ -123,7 +123,7 @@ class _AgregarVehiculoState extends State<AgregarVehiculo> {
               const SizedBox(height: 30),
               ElevatedButton(
                 onPressed: (){_enviarFormulario();
-                  Navigator.pop(context);
+                  //Navigator.pop(context);
                 },
                 child: const Text('Guardar'),
               ),
