@@ -41,7 +41,8 @@ class _WorkOrdersPageState extends State<WorkOrdersPage> {
       body: RefreshIndicator(
         onRefresh: fetchData,
         child: SingleChildScrollView(
-          physics: AlwaysScrollableScrollPhysics(), // Asegura que siempre se pueda desplazar
+          physics:
+              AlwaysScrollableScrollPhysics(), // Asegura que siempre se pueda desplazar
           child: Padding(
             padding: const EdgeInsets.all(16.0),
             child: Column(
@@ -53,8 +54,10 @@ class _WorkOrdersPageState extends State<WorkOrdersPage> {
                 ),
                 SizedBox(height: 20),
                 ListView.builder(
-                  shrinkWrap: true, // Importante para usar dentro de SingleChildScrollView
-                  physics: NeverScrollableScrollPhysics(), // Para evitar el scroll dentro del ListView
+                  shrinkWrap:
+                      true, // Importante para usar dentro de SingleChildScrollView
+                  physics:
+                      NeverScrollableScrollPhysics(), // Para evitar el scroll dentro del ListView
                   itemCount: ordenesTrabajo.length,
                   itemBuilder: (context, index) => _buildWorkOrderCard(
                       context,

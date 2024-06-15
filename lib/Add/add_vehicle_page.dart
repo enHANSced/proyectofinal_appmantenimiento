@@ -1,10 +1,10 @@
-// lib/paginas/pagina_agregar_vehiculo.dart
-//
-// ignore_for_file: use_build_context_synchronously, avoid_print
-
+import 'dart:io';
+import 'package:image_picker/image_picker.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import 'package:permission_handler/permission_handler.dart';
 
 /// Página de Flutter que permite agregar un nuevo vehículo al sistema.
 class AgregarVehiculo extends StatefulWidget {
@@ -33,10 +33,16 @@ class _AgregarVehiculoState extends State<AgregarVehiculo> {
   final TextEditingController _controladorKilometraje = TextEditingController();
   final TextEditingController _controladorPlaca = TextEditingController();
 
+  // Controlador de imagen.
+  final ImagePicker _imagePicker = ImagePicker();
+  File? _imageFile;
+
   // Lista de conductores.
   List<dynamic> _conductores = [];
   // Conductor seleccionado.
   String? _conductorSeleccionado;
+  // URL de la imagen
+  String? _urlImagen;
 
   // Obtiene la lista de conductores de la API.
   Future<void> _obtenerConductores() async {
@@ -70,6 +76,7 @@ class _AgregarVehiculoState extends State<AgregarVehiculo> {
         final String anio = _controladorAnio.text;
         final double kilometraje = double.parse(_controladorKilometraje.text);
         final String conductorAsignado = _conductorSeleccionado ?? '';
+        final String urlImagen = _urlImagen ?? '';
 
         final response = await http.post(
           Uri.parse(apiVehiculos),
@@ -82,6 +89,7 @@ class _AgregarVehiculoState extends State<AgregarVehiculo> {
             'modelo': modelo,
             'anio': anio,
             'kilometraje': kilometraje.toString(),
+            'foto': urlImagen,
             'idConductorAsignado': conductorAsignado,
           }),
         );
@@ -104,6 +112,39 @@ class _AgregarVehiculoState extends State<AgregarVehiculo> {
     }
   }
 
+  // Cargar imagen
+  Future<void> _verificarYsolicitarPermisos() async {
+    var status = await Permission.storage.status;
+    if (!status.isGranted) {
+      await Permission.storage.request();
+    }
+  }
+
+  Future<void> _cargarImagen() async {
+    await _verificarYsolicitarPermisos(); // Asegúrate de llamar a esta función antes de intentar cargar la imagen
+
+    final XFile? image =
+        await _imagePicker.pickImage(source: ImageSource.gallery);
+
+    if (image != null) {
+      File file = File(image.path);
+      // Subir la imagen a Firebase Storage
+      String filePath = 'images/${_controladorPlaca.text}.png';
+      TaskSnapshot snapshot =
+          await FirebaseStorage.instance.ref().child(filePath).putFile(file);
+
+      // Obtener la URL de la imagen
+      String imageUrl = await snapshot.ref.getDownloadURL();
+      setState(() {
+        _urlImagen = imageUrl;
+        _imageFile = file;
+      });
+      print("URL de la imagen: $imageUrl");
+    } else {
+      print("No se seleccionó ninguna imagen.");
+    }
+  }
+
   // Construye la interfaz de usuario.
   @override
   Widget build(BuildContext context) {
@@ -123,11 +164,28 @@ class _AgregarVehiculoState extends State<AgregarVehiculo> {
                   isNumeric: true),
               const SizedBox(height: 20),
               _construirDropdownDeConductores(),
-              const SizedBox(height: 30),
+              const SizedBox(height: 20),
+              // cargar imagen
               ElevatedButton(
-                onPressed: () {
-                  _enviarFormulario();
-                },
+                onPressed: _cargarImagen,
+                child: const Text('Cargar Imagen'),
+              ),
+              if (_urlImagen !=
+                  null) // Mostrar la imagen si _urlImagen no es nulo
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 8.0),
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(15.0),
+                    child: Image.file(
+                      _imageFile!,
+                      fit: BoxFit.cover,
+                      height: 200,
+                    ),
+                  ),
+                ),
+              //const SizedBox(height: 10),
+              ElevatedButton(
+                onPressed: _enviarFormulario,
                 child: const Text('Guardar'),
               ),
             ],

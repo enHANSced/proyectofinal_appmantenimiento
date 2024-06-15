@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'login_page.dart'; 
 
-void main() {
+
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   // Esto es para hacer la barra de gestos transparente
   SystemChrome.setSystemUIOverlayStyle(
     const SystemUiOverlayStyle(
@@ -23,11 +26,11 @@ class MyApp extends StatelessWidget {
       title: 'Gestor de Registros de Vehículos',
       theme: ThemeData(
         brightness: Brightness.light,
-        colorSchemeSeed: Colors.blue,
+        colorSchemeSeed: Colors.green,
       ),
       darkTheme: ThemeData(
         brightness: Brightness.dark,
-        primarySwatch: Colors.blue,
+        colorSchemeSeed: Colors.green,
       ),
       debugShowCheckedModeBanner: false, 
       themeMode: ThemeMode.system,

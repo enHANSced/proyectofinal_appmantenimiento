@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "430266489542",
+    "project_id": "appmantenimiento-8ad77",
+    "storage_bucket": "appmantenimiento-8ad77.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:430266489542:android:219cdf1dab18e0bc0dd5c7",
+        "android_client_info": {
+          "package_name": "com.example.proyecto_app_mantenimiento"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCgvn-roEd_oigsSPs55gwBfpIm0R9Z1A8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

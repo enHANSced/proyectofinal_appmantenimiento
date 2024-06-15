@@ -2,8 +2,9 @@
 
 // ignore_for_file: prefer_const_constructors
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import '/home_page.dart'; 
+import '/home_page.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -17,34 +18,50 @@ class _LoginPageState extends State<LoginPage> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
 
-  _login() async {
-    if (_formKey.currentState?.validate() ?? false) {
-      String email = _emailController.text;
-      String password = _passwordController.text;
+  void signUserIn() async {
+    //show loading circle
+    showDialog(
+      context: context,
+      builder: (context) {
+        return Center(
+          child: CircularProgressIndicator(
+            color: Colors.grey.shade800,
+            strokeWidth: 5,
+            backgroundColor: Colors.white,
+          ),
+        );
+      },
+    );
 
-      // Check for admin credentials
-      if (email == 'admin' && password == '123') {
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) => HomePage()),
-        );
-        return;
-      }
-
-      /*var user = await _databaseHelper.getUser(email, password);
-      if (user != null) {
-        if (!mounted) return;
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) => HomePage()),
-        );
-      } else {
-        if (!mounted) return;
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Correo o contraseña incorrectos')),
-        );
-      }*/
+    try {
+      await FirebaseAuth.instance.signInWithEmailAndPassword(
+        email: _emailController.text,
+        password: _passwordController.text,
+      );
+      Navigator.pop(context); // Cierra el diálogo de progreso
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => HomePage()),
+      );
+    } on FirebaseAuthException catch (e) {
+      Navigator.pop(context); // Cierra el diálogo de progreso
+      messageSnackBar('Correo o contraseña incorrectos.');
+    } catch (e) {
+      Navigator.pop(context); // Asegúrate de cerrar el diálogo en caso de cualquier error
+      messageSnackBar('Ocurrió un error inesperado: ${e.toString()}');
     }
+  }
+
+  void messageSnackBar(String message) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(
+          message,
+          style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+        ),
+        elevation: 4,
+      ),
+    );
   }
 
   @override
@@ -54,7 +71,8 @@ class _LoginPageState extends State<LoginPage> {
         padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 32.0),
         decoration: BoxDecoration(
           image: DecorationImage(
-            image: NetworkImage('https://t4.ftcdn.net/jpg/01/39/59/39/360_F_139593909_anc4cllhKeLgxbXzFXECoQUcZhupGn8h.jpg'), 
+            image: NetworkImage(
+                'https://t4.ftcdn.net/jpg/01/39/59/39/360_F_139593909_anc4cllhKeLgxbXzFXECoQUcZhupGn8h.jpg'),
             fit: BoxFit.cover,
           ),
         ),
@@ -66,11 +84,17 @@ class _LoginPageState extends State<LoginPage> {
               children: [
                 Text(
                   'Bienvenido/a',
-                  style: TextStyle(fontSize: 32, fontWeight: FontWeight.bold, color: Colors.black),
+                  style: TextStyle(
+                      fontSize: 32,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black),
                 ),
                 Text(
                   'Inicio de sesión',
-                  style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold, color: Colors.black),
+                  style: TextStyle(
+                      fontSize: 28,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black),
                 ),
                 SizedBox(height: 10),
                 Text(
@@ -84,15 +108,18 @@ class _LoginPageState extends State<LoginPage> {
                     children: [
                       _buildTextField('Correo', _emailController),
                       SizedBox(height: 20),
-                      _buildTextField('Contraseña', _passwordController, obscureText: true),
+                      _buildTextField('Contraseña', _passwordController,
+                          obscureText: true),
                       SizedBox(height: 30),
                       ElevatedButton(
-                        onPressed: _login,
+                        onPressed: signUserIn,
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.blue,
-                          foregroundColor: Colors.white, 
-                          padding: EdgeInsets.symmetric(horizontal: 50, vertical: 15),
-                          textStyle: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                          foregroundColor: Colors.white,
+                          padding: EdgeInsets.symmetric(
+                              horizontal: 50, vertical: 15),
+                          textStyle: TextStyle(
+                              fontSize: 18, fontWeight: FontWeight.bold),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(15),
                           ),
@@ -110,7 +137,8 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-  Widget _buildTextField(String label, TextEditingController controller, {bool obscureText = false}) {
+  Widget _buildTextField(String label, TextEditingController controller,
+      {bool obscureText = false}) {
     return TextFormField(
       controller: controller,
       decoration: InputDecoration(
