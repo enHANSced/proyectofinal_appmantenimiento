@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
+import 'package:proyecto_app_mantenimiento/monthName.dart';
+
 class ShowWorkOrder extends StatefulWidget {
   final int orderId;
 
@@ -31,6 +33,12 @@ class _ShowWorkOrderState extends State<ShowWorkOrder> {
       print('Response body: ${response.body}');
       throw Exception('Esta orden de trabajo ya no existe');
     }
+  }
+
+  //haz una funcion para mostrar la fecha tipo: 5 de junio de 2024
+  String getFormattedDate(String date) {
+    final dateTime = DateTime.parse(date);
+    return '${dateTime.day} de ${getMonthName(dateTime.month)} de ${dateTime.year}';
   }
 
   @override
@@ -78,11 +86,11 @@ class _ShowWorkOrderState extends State<ShowWorkOrder> {
             ListTile(
               leading: const Icon(Icons.date_range),
               title: Text(
-                  'Fecha de Emisión: ${orderData['fechaEmision'] ?? 'N/A'}'),
+                  'Fecha de Emisión:\n${getFormattedDate(orderData['fechaEmision']) ?? 'N/A'}'),
             ),
             ListTile(
               leading: const Icon(Icons.description),
-              title: Text('Detalles: ${orderData['detalles'] ?? 'N/A'}'),
+              title: Text('Detalles:\n${orderData['detalles'] ?? 'N/A'}'),
             ),
             ListTile(
               leading: const Icon(Icons.monetization_on),

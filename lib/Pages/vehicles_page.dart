@@ -55,24 +55,24 @@ class _VehiclesPageState extends State<VehiclesPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Gestor de Vehículos')),
+      appBar: AppBar(title: const Text('Gestor de Vehículos')),
       body: RefreshIndicator(
         onRefresh: fetchData,
         child: SingleChildScrollView(
-          physics: AlwaysScrollableScrollPhysics(),
+          physics: const AlwaysScrollableScrollPhysics(),
           child: Padding(
             padding: const EdgeInsets.all(16.0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
+                const Text(
                   'Ingrese los vehículos que quiera mantener en la base de datos.',
-                  style: TextStyle(fontSize: 16),
+                  style: const TextStyle(fontSize: 16),
                 ),
-                SizedBox(height: 20),
+                const SizedBox(height: 20),
                 ListView.builder(
                   shrinkWrap: true,
-                  physics: NeverScrollableScrollPhysics(),
+                  physics: const NeverScrollableScrollPhysics(),
                   itemCount: vehiculos.length,
                   itemBuilder: (context, index) => _buildVehicleCard(
                     context,
@@ -81,7 +81,7 @@ class _VehiclesPageState extends State<VehiclesPage> {
                     index,
                   ),
                 ),
-                SizedBox(height: 20),
+                const SizedBox(height: 20),
               ],
             ),
           ),
@@ -91,10 +91,10 @@ class _VehiclesPageState extends State<VehiclesPage> {
         onPressed: () {
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => AgregarVehiculo()),
+            MaterialPageRoute(builder: (context) => const AgregarVehiculo()),
           );
         },
-        child: Icon(Icons.add),
+        child: const Icon(Icons.add),
         backgroundColor: Colors.green,
       ),
     );
@@ -106,10 +106,10 @@ class _VehiclesPageState extends State<VehiclesPage> {
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(15),
       ),
-      margin: EdgeInsets.symmetric(vertical: 10),
+      margin: const EdgeInsets.symmetric(vertical: 10),
       child: Container(
         height: 180,
-        padding: EdgeInsets.all(20),
+        padding: const EdgeInsets.all(20),
         decoration: BoxDecoration(
           color: Colors.grey[800],
           borderRadius: BorderRadius.circular(15),
@@ -119,12 +119,12 @@ class _VehiclesPageState extends State<VehiclesPage> {
           children: [
             Row(
               children: [
-                Icon(Icons.directions_car, size: 40, color: Colors.white),
-                SizedBox(width: 16),
+                const Icon(Icons.directions_car, size: 40, color: Colors.white),
+                const SizedBox(width: 16),
                 Expanded(
                   child: Text(
                     title,
-                    style: TextStyle(
+                    style: const TextStyle(
                         fontSize: 24,
                         fontWeight: FontWeight.bold,
                         color: Colors.white),
@@ -134,9 +134,9 @@ class _VehiclesPageState extends State<VehiclesPage> {
             ),
             Text(
               subtitle,
-              style: TextStyle(fontSize: 16, color: Colors.white),
+              style: const TextStyle(fontSize: 16, color: Colors.white),
             ),
-            Spacer(),
+            const Spacer(),
             Align(
               alignment: Alignment.bottomRight,
               child: ElevatedButton(
@@ -146,7 +146,7 @@ class _VehiclesPageState extends State<VehiclesPage> {
                       builder: (context) =>
                           ShowVehicle(vehicleId: vehiculos[index]["id"]));
                 },
-                child: Text('Más Información'),
+                child: const Text('Más Información'),
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.white,
                   foregroundColor: Colors.grey[800],

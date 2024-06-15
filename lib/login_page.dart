@@ -43,7 +43,7 @@ class _LoginPageState extends State<LoginPage> {
         context,
         MaterialPageRoute(builder: (context) => HomePage()),
       );
-    } on FirebaseAuthException catch (e) {
+    } on FirebaseAuthException {
       Navigator.pop(context); // Cierra el diálogo de progreso
       messageSnackBar('Correo o contraseña incorrectos.');
     } catch (e) {

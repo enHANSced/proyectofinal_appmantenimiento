@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
+import 'package:proyecto_app_mantenimiento/monthName.dart';
+
 class ShowReceipt extends StatefulWidget {
   final int receiptId;
 
@@ -12,7 +14,8 @@ class ShowReceipt extends StatefulWidget {
 }
 
 class _ShowReceiptState extends State<ShowReceipt> {
-  final String apiUrl = 'https://finalprojectbackend-production-a933.up.railway.app/api/Recibos';
+  final String apiUrl =
+      'https://finalprojectbackend-production-a933.up.railway.app/api/Recibos';
 
   late Future<dynamic> _receiptData;
 
@@ -29,6 +32,11 @@ class _ShowReceiptState extends State<ShowReceipt> {
     } else {
       throw Exception('Error al cargar los detalles del recibo');
     }
+  }
+
+  String getFormattedDate(String date) {
+    final dateTime = DateTime.parse(date);
+    return '${dateTime.day} de ${getMonthName(dateTime.month)} de ${dateTime.year}';
   }
 
   @override
@@ -69,7 +77,8 @@ class _ShowReceiptState extends State<ShowReceipt> {
             ),
             ListTile(
               leading: const Icon(Icons.work),
-              title: Text('ID de Orden de Trabajo: ${receiptData['ordenTrabajoId'].toString()}'),
+              title: Text(
+                  'ID de Orden de Trabajo: ${receiptData['ordenTrabajoId'].toString()}'),
             ),
             ListTile(
               leading: const Icon(Icons.monetization_on),
@@ -77,7 +86,8 @@ class _ShowReceiptState extends State<ShowReceipt> {
             ),
             ListTile(
               leading: const Icon(Icons.date_range),
-              title: Text('Fecha de Emisión: ${receiptData['fechaEmision']}'),
+              title: Text(
+                  'Fecha de Emisión: ${getFormattedDate(receiptData['fechaEmision'])}'),
             ),
             ListTile(
               leading: const Icon(Icons.payment),
@@ -105,7 +115,8 @@ class _ShowReceiptState extends State<ShowReceipt> {
       builder: (BuildContext dialogContext) {
         return AlertDialog(
           title: const Text('Confirmar'),
-          content: const Text('¿Estás seguro de que deseas eliminar este recibo?'),
+          content:
+              const Text('¿Estás seguro de que deseas eliminar este recibo?'),
           actions: <Widget>[
             TextButton(
               onPressed: () => Navigator.of(dialogContext).pop(false),
@@ -122,11 +133,14 @@ class _ShowReceiptState extends State<ShowReceipt> {
 
     if (!confirmDelete) return;
 
-    final response = await http.delete(Uri.parse('$apiUrl/${widget.receiptId}'));
+    final response =
+        await http.delete(Uri.parse('$apiUrl/${widget.receiptId}'));
     if (response.statusCode == 204) {
       Navigator.of(context).pop();
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Recibo eliminado correctamente, recarga la página para ver los cambios')),
+        const SnackBar(
+            content: Text(
+                'Recibo eliminado correctamente, recarga la página para ver los cambios')),
       );
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
