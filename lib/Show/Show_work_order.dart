@@ -86,7 +86,7 @@ class _ShowWorkOrderState extends State<ShowWorkOrder> {
             ListTile(
               leading: const Icon(Icons.date_range),
               title: Text(
-                  'Fecha de Emisión:\n${getFormattedDate(orderData['fechaEmision']) ?? 'N/A'}'),
+                  'Fecha de Emisión:\n${getFormattedDate(orderData['fechaEmision'])}'),
             ),
             ListTile(
               leading: const Icon(Icons.description),

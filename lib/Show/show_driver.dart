@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
+import 'package:proyecto_app_mantenimiento/monthName.dart';
+
 class ShowDriver extends StatefulWidget {
   final String driverId;
 
@@ -29,6 +31,12 @@ class _ShowDriverState extends State<ShowDriver> {
     } else {
       throw Exception('Error al cargar los detalles del conductor');
     }
+  }
+
+  String getFormattedDate(String date) {
+    final dateTime = DateTime.parse(date);
+    return '${dateTime.day} de ${getMonthName(dateTime.month)} de ${dateTime.year}';
+    
   }
 
   @override
@@ -85,7 +93,7 @@ class _ShowDriverState extends State<ShowDriver> {
             ),
             ListTile(
               leading: const Icon(Icons.calendar_today),
-              title: Text('Expiración de Licencia: ${driverData['expiracionLicencia']}'),
+              title: Text('Expiración de Licencia:\n${getFormattedDate(driverData['expiracionLicencia'])}'),
             ),
           ],
         ),

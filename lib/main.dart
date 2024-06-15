@@ -26,11 +26,11 @@ class MyApp extends StatelessWidget {
       title: 'Gestor de Registros de Vehículos',
       theme: ThemeData(
         brightness: Brightness.light,
-        colorSchemeSeed: Colors.green,
+        colorSchemeSeed: Colors.grey,
       ),
       darkTheme: ThemeData(
         brightness: Brightness.dark,
-        colorSchemeSeed: Colors.green,
+        colorSchemeSeed: Colors.grey,
       ),
       debugShowCheckedModeBanner: false, 
       themeMode: ThemeMode.system,
