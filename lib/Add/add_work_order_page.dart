@@ -5,6 +5,8 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 class AddWorkOrderPage extends StatefulWidget {
+  const AddWorkOrderPage({super.key});
+
   @override
   _AddWorkOrderPageState createState() => _AddWorkOrderPageState();
 }
@@ -204,7 +206,7 @@ class _AddWorkOrderPageState extends State<AddWorkOrderPage> {
           },
           items: _proveedor.map<DropdownMenuItem<String>>((dynamic proveedores) {
             return DropdownMenuItem<String>(
-              value: proveedores['id'].toString() ?? '',
+              value: proveedores['id'].toString(),
               child: Text(proveedores['nombre'] ?? 'Sin nombre'),
             );
           }).toList(),
