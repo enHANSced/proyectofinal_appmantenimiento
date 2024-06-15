@@ -1,12 +1,7 @@
-// lib/vehicles_page.dart
-
-// ignore_for_file: prefer_const_constructors, sort_child_properties_last
-
 import 'package:flutter/material.dart';
 import 'package:proyecto_app_mantenimiento/Add/add_vehicle_page.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-
 import 'package:proyecto_app_mantenimiento/Show/show_vehicle.dart';
 
 class VehiclesPage extends StatefulWidget {
@@ -17,10 +12,13 @@ class VehiclesPage extends StatefulWidget {
 }
 
 class _VehiclesPageState extends State<VehiclesPage> {
-  final String apiUrl =
-      'https://finalprojectbackend-production-a933.up.railway.app/api/vehiculos';
+  final String apiVehiclesUrl =
+      'https://finalprojectbackend-production-a933.up.railway.app/api/Vehiculos';
+  final String apiDriversUrl =
+      'https://finalprojectbackend-production-a933.up.railway.app/api/conductores';
 
   List vehiculos = [];
+  Map<String, String> conductoresMap = {};
 
   @override
   void initState() {
@@ -29,10 +27,27 @@ class _VehiclesPageState extends State<VehiclesPage> {
   }
 
   Future fetchData() async {
-    final response = await http.get(Uri.parse(apiUrl));
+    await Future.wait([fetchVehicles(), fetchConductores()]);
+    setState(() {});
+  }
+
+  Future fetchVehicles() async {
+    final response = await http.get(Uri.parse(apiVehiclesUrl));
     if (response.statusCode == 200) {
       setState(() {
         vehiculos = jsonDecode(response.body);
+      });
+    }
+  }
+
+  Future fetchConductores() async {
+    final response = await http.get(Uri.parse(apiDriversUrl));
+    if (response.statusCode == 200) {
+      List conductores = jsonDecode(response.body);
+      setState(() {
+        conductoresMap = {
+          for (var conductor in conductores) conductor['id'].toString(): conductor['nombre']
+        };
       });
     }
   }
@@ -44,8 +59,7 @@ class _VehiclesPageState extends State<VehiclesPage> {
       body: RefreshIndicator(
         onRefresh: fetchData,
         child: SingleChildScrollView(
-          physics:
-              AlwaysScrollableScrollPhysics(), // Asegura que siempre se pueda desplazar
+          physics: AlwaysScrollableScrollPhysics(),
           child: Padding(
             padding: const EdgeInsets.all(16.0),
             child: Column(
@@ -57,16 +71,15 @@ class _VehiclesPageState extends State<VehiclesPage> {
                 ),
                 SizedBox(height: 20),
                 ListView.builder(
-                  shrinkWrap:
-                      true, // Importante para usar dentro de SingleChildScrollView
-                  physics:
-                      NeverScrollableScrollPhysics(), // Para evitar el scroll dentro del ListView
+                  shrinkWrap: true,
+                  physics: NeverScrollableScrollPhysics(),
                   itemCount: vehiculos.length,
                   itemBuilder: (context, index) => _buildVehicleCard(
-                      context,
-                      '${vehiculos[index]["marca"]} ${vehiculos[index]["modelo"]}',
-                      '${vehiculos[index]["id"]}',
-                      index), // Pasando index aquí
+                    context,
+                    '${vehiculos[index]["marca"]} ${vehiculos[index]["modelo"]}',
+                    'Placa: ${vehiculos[index]["id"]}' '\nConductor: ${conductoresMap[vehiculos[index]["idConductorAsignado"]?.toString()] ?? 'No asignado'}',
+                    index,
+                  ),
                 ),
                 SizedBox(height: 20),
               ],
@@ -87,7 +100,6 @@ class _VehiclesPageState extends State<VehiclesPage> {
     );
   }
 
-  // Modifica la firma del método _buildVehicleCard para incluir el parámetro index
   Widget _buildVehicleCard(
       BuildContext context, String title, String subtitle, int index) {
     return Card(
