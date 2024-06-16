@@ -1,5 +1,6 @@
 // ignore_for_file: prefer_const_constructors, sort_child_properties_last
 import 'package:flutter/material.dart';
+import 'package:proyecto_app_mantenimiento/login_page.dart';
 import 'Pages/vehicles_page.dart'; 
 import 'Pages/providers_page.dart'; 
 import 'Pages/work_orders_page.dart'; 
@@ -19,9 +20,21 @@ class HomePage extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               SizedBox(height: 40),
-              Text(
-                'Inicio',
-                style: TextStyle(fontSize: 40, fontWeight: FontWeight.bold),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    'Inicio',
+                    style: TextStyle(fontSize: 40, fontWeight: FontWeight.bold),
+                  ),
+                  IconButton(onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => LoginPage()),
+                    );
+                  }, iconSize: 40, icon: Icon(Icons.logout))
+                ],
+
               ),
               SizedBox(height: 20),
               Text(
