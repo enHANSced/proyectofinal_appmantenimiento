@@ -5,6 +5,7 @@ import 'package:http/http.dart' as http;
 import 'package:proyecto_app_mantenimiento/Add/add_receipt_page.dart';
 import 'dart:convert';
 import 'package:proyecto_app_mantenimiento/Show/show_receipt.dart';
+import 'package:proyecto_app_mantenimiento/monthName.dart';
 
 class ReceiptsPage extends StatefulWidget {
   const ReceiptsPage({super.key});
@@ -38,7 +39,11 @@ class _ReceiptsPageState extends State<ReceiptsPage> {
       print('Error al cargar los recibos: $e');
     }
   }
-
+  String getFormattedDate(String date) {
+    final dateTime = DateTime.parse(date);
+    return '${dateTime.day} de ${getMonthName(dateTime.month)} de ${dateTime.year}';
+  }
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -66,7 +71,7 @@ class _ReceiptsPageState extends State<ReceiptsPage> {
                     return _buildReceiptCard(
                       context,
                       'Recibo ${recibo["id"]}',
-                      'Monto: ${recibo["monto"]}',
+                      'Monto: ${recibo["monto"]}' '\nFecha: ${getFormattedDate(recibo["fechaEmision"])}',
                       index,
                     );
                   },

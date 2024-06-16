@@ -66,7 +66,7 @@ class _DriversPageState extends State<DriversPage> {
                     return _buildDriverCard(
                       context,
                       'Conductor ${conductor["nombre"]}',
-                      'Teléfono: ${conductor["telefono"]}',
+                      'Teléfono: ${conductor["telefono"]}' '\nIdentidad: ${conductor["id"]}',
                       index,
                     );
                   },

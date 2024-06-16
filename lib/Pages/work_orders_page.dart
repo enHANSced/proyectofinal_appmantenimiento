@@ -62,7 +62,7 @@ class _WorkOrdersPageState extends State<WorkOrdersPage> {
                   itemBuilder: (context, index) => _buildWorkOrderCard(
                       context,
                       'Orden de Trabajo ${index + 1}',
-                      '${ordenesTrabajo[index]["detalles"]}',
+                      'Detalles: ${ordenesTrabajo[index]["detalles"]}' '\nCosto: ${ordenesTrabajo[index]["costo"]}',
                       index), // Pasando index aquí
                 ),
                 SizedBox(height: 20),

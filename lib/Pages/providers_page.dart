@@ -60,7 +60,7 @@ class _ProvidersPageState extends State<ProvidersPage> {
                   itemBuilder: (context, index) => _buildProviderCard(
                     context,
                     '${proveedores[index]["nombre"]}',
-                    '${proveedores[index]["contacto"]}',
+                    'Contacto: ${proveedores[index]["contacto"]}' '\nTelefono: ${proveedores[index]["telefono"]}',
                     proveedores[index]["id"].toString(), 
                   ), // Pasando index aquí
                 ),
