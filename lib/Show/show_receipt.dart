@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:proyecto_app_mantenimiento/Edit/edit_receipts.dart';
 import 'dart:convert';
 
 import 'package:proyecto_app_mantenimiento/monthName.dart';
@@ -100,6 +101,16 @@ class _ShowReceiptState extends State<ShowReceipt> {
         TextButton(
           onPressed: () => Navigator.of(context).pop(),
           child: const Text('Cerrar'),
+        ),
+        TextButton(
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => EditReceiptPage(receiptData: receiptData)),
+            );
+          },
+          child: const Text('Editar', style: TextStyle(color: Colors.blue)),
         ),
         TextButton(
           onPressed: () => deleteReceipt(context),

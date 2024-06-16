@@ -6,6 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
+import 'package:proyecto_app_mantenimiento/Edit/edit.providers.dart';
+
 /// Widget para mostrar los detalles de un proveedor.
 ///
 /// Recibe como parámetro el ID del proveedor que se desea mostrar.
@@ -118,6 +120,16 @@ class _ShowProviderState extends State<ShowProvider> {
         TextButton(
           onPressed: () => Navigator.of(context).pop(),
           child: const Text('Cerrar'),
+        ),
+        TextButton(
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => EditProviderPage(providerData: providerData)),
+            );
+          },
+          child: const Text('Editar', style: TextStyle(color: Colors.blue)),
         ),
         // Botón para eliminar el proveedor
         TextButton(

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:proyecto_app_mantenimiento/Edit/edit_driver.dart';
 import 'dart:convert';
 
 import 'package:proyecto_app_mantenimiento/monthName.dart';
@@ -14,7 +15,8 @@ class ShowDriver extends StatefulWidget {
 }
 
 class _ShowDriverState extends State<ShowDriver> {
-  final String apiUrl = 'https://finalprojectbackend-production-a933.up.railway.app/api/conductores';
+  final String apiUrl =
+      'https://finalprojectbackend-production-a933.up.railway.app/api/conductores';
 
   late Future<dynamic> _driverData;
 
@@ -36,7 +38,6 @@ class _ShowDriverState extends State<ShowDriver> {
   String getFormattedDate(String date) {
     final dateTime = DateTime.parse(date);
     return '${dateTime.day} de ${getMonthName(dateTime.month)} de ${dateTime.year}';
-    
   }
 
   @override
@@ -85,15 +86,18 @@ class _ShowDriverState extends State<ShowDriver> {
             ),
             ListTile(
               leading: const Icon(Icons.directions_car),
-              title: Text('Vehículo Asignado: ${driverData['conductorAsignado']}'),
+              title:
+                  Text('Vehículo Asignado: ${driverData['conductorAsignado']}'),
             ),
             ListTile(
               leading: const Icon(Icons.credit_card),
-              title: Text('Número de Licencia: ${driverData['numeroLicencia']}'),
+              title:
+                  Text('Número de Licencia: ${driverData['numeroLicencia']}'),
             ),
             ListTile(
               leading: const Icon(Icons.calendar_today),
-              title: Text('Expiración de Licencia:\n${getFormattedDate(driverData['expiracionLicencia'])}'),
+              title: Text(
+                  'Expiración de Licencia:\n${getFormattedDate(driverData['expiracionLicencia'])}'),
             ),
           ],
         ),
@@ -102,6 +106,17 @@ class _ShowDriverState extends State<ShowDriver> {
         TextButton(
           onPressed: () => Navigator.of(context).pop(),
           child: const Text('Cerrar'),
+        ),
+        const SizedBox(width: 20),
+        TextButton(
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => EditDriverPage(driverData: driverData)),
+            );
+          },
+          child: const Text('Editar', style: TextStyle(color: Colors.blue)),
         ),
         TextButton(
           onPressed: () => deleteDriver(context),
@@ -117,7 +132,8 @@ class _ShowDriverState extends State<ShowDriver> {
       builder: (BuildContext dialogContext) {
         return AlertDialog(
           title: const Text('Confirmar'),
-          content: const Text('¿Estás seguro de que deseas eliminar este conductor?'),
+          content: const Text(
+              '¿Estás seguro de que deseas eliminar este conductor?'),
           actions: <Widget>[
             TextButton(
               onPressed: () => Navigator.of(dialogContext).pop(false),
@@ -138,7 +154,9 @@ class _ShowDriverState extends State<ShowDriver> {
     if (response.statusCode == 204) {
       Navigator.of(context).pop();
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Conductor eliminado correctamente, recarga la página para ver los cambios')),
+        const SnackBar(
+            content: Text(
+                'Conductor eliminado correctamente, recarga la página para ver los cambios')),
       );
     } else {
       ScaffoldMessenger.of(context).showSnackBar(

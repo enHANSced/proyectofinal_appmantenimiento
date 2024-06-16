@@ -2,7 +2,9 @@
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'dart:convert'; 
+import 'dart:convert';
+
+import 'package:proyecto_app_mantenimiento/Edit/edit_vehicle.dart'; 
 
 /// Widget para mostrar los detalles de un vehículo.
 ///
@@ -112,6 +114,16 @@ class _ShowVehicleState extends State<ShowVehicle> {
         TextButton(
           onPressed: () => Navigator.of(context).pop(),
           child: const Text('Cerrar'),
+        ),
+        TextButton(
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => EditVehiclePage(vehicleData: vehicleData)),
+            );
+          },
+          child: const Text('Editar', style: TextStyle(color: Colors.blue)),
         ),
         // Botón para eliminar el vehículo
         TextButton(
